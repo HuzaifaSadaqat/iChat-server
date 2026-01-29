@@ -5,7 +5,7 @@ import http from "http";
 import { Server } from "socket.io";
 import { createAdapter } from "@socket.io/redis-adapter";
 import Redis from "ioredis";
-import redis from "./redis.config.js";
+import redis from "./config/redis.config.js";
 
 const app = express();
 
@@ -56,7 +56,16 @@ subClient.on('connect', () => {
 /* ================= SOCKET.IO ================= */
 
 // Parse CORS_ORIGIN if it's a JSON string, otherwise use it directly
-let corsOrigins = ["http://localhost:5173", "http://127.0.0.1:5173"];
+let corsOrigins = ["http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:5174", "http://127.0.0.1:5174", "http://localhost", "http://127.0.0.1"];
+
+if (process.env.CORS_ORIGIN) {
+    try {
+        const parsed = JSON.parse(process.env.CORS_ORIGIN);
+        corsOrigins = Array.isArray(parsed) ? parsed : [parsed];
+    } catch (e) {
+        corsOrigins = process.env.CORS_ORIGIN;
+    }
+}
 
 // Initialize Socket.IO with Redis adapter
 export const io = new Server(httpServer, {
