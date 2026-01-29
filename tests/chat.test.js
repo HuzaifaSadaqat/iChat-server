@@ -57,7 +57,6 @@ process.env.CORS_ORIGIN = '*';
 process.env.REDIS_HOST = 'localhost';
 process.env.REDIS_PORT = '6379';
 
-// Import app and models after mocks
 const { app } = await import('../src/app.js');
 const { Chat } = await import('../src/models/chat.models.js');
 
