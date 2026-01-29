@@ -116,11 +116,27 @@ describe('Chat API', () => {
 
     describe('GET /api/v1/messages', () => {
         it('should retrieve messages between two users', async () => {
-            // Seed messages directly into DB
+            // Seed messages directly into DB with explicit timestamps to ensure order
+            const baseTime = new Date();
             await Chat.create([
-                { content: 'Message 1', sender: senderId, receiver: receiverId },
-                { content: 'Message 2', sender: receiverId, receiver: senderId }, // Reply
-                { content: 'Message 3', sender: senderId, receiver: receiverId }
+                { 
+                    content: 'Message 1', 
+                    sender: senderId, 
+                    receiver: receiverId,
+                    createdAt: new Date(baseTime.getTime() - 2000)
+                },
+                { 
+                    content: 'Message 2', 
+                    sender: receiverId, 
+                    receiver: senderId,
+                    createdAt: new Date(baseTime.getTime() - 1000)
+                }, // Reply
+                { 
+                    content: 'Message 3', 
+                    sender: senderId, 
+                    receiver: receiverId,
+                    createdAt: baseTime
+                }
             ]);
 
             const res = await request(app)
