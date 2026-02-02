@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
-    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --verbose --runInBand"
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest tests/ --verbose --runInBand"
   },
   "jest": {
     "testEnvironment": "node",
